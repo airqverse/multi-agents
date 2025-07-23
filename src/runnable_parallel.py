@@ -6,10 +6,14 @@ def plus_one(x: int) -> int:
 def fake_llm(x: int) -> str:
     return f"Result = {x}"
 
-chain = RunnableParallel(
+chain1 = RunnableParallel(
     step1 = (plus_one | RunnableLambda(fake_llm)),
     step2 = RunnableLambda(fake_llm)
 )
 
-print(chain.invoke(1))
+chain2 = (plus_one | chain1)
 
+print("chain1:")
+print(chain1.invoke(1))
+print("chain2:")
+print(chain2.invoke(1))
