@@ -1,18 +1,49 @@
 from langchain_core.runnables import RunnableLambda
+
+# ╭────────────────────────────────────────────╮
+# │    Simple Example                          │
+# ╰────────────────────────────────────────────╯
 runnable = RunnableLambda(lambda x: x+1)
 response = runnable.invoke(1)
 print(response)
 
-def plus_one(x: int) -> int:
-    return x + 1
-
-def multiply_by_3(x: int) -> int:
-    return x * 3
+# ╭────────────────────────────────────────────╮
+# │    My Example                              │
+# ╰────────────────────────────────────────────╯
+def fibonacci_step(data: dict) -> dict:
+    """
+    Takes a dict {'x': int, 'y': int} and returns the next step in the
+    Fibonacci sequence in the same format.
+    """
+    x = data['x']
+    y = data['y']
+    print(x)
+    return {'x': y, 'y': x + y}
 
 chain = (
-    RunnableLambda(plus_one)
-    | RunnableLambda(multiply_by_3)
+    RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
+    | RunnableLambda(fibonacci_step)
 )
 
-result = chain.invoke(3)
-print(result)
+chain.invoke({'x': 0, 'y': 1})
+
+# ╭────────────────────────────────────────────╮
+# │    Bonus                                   │
+# ╰────────────────────────────────────────────╯
+"""
+"a | b" equals to "b.__or__(a)"
+"""
+print(False | True) # True
+print(True.__or__(False)) # True
+
+# ╭────────────────────────────────────────────╮
+# │    Bonus                                   │
+# ╰────────────────────────────────────────────╯
