@@ -17,3 +17,7 @@ print("chain1:")
 print(chain1.invoke(1))
 print("chain2:")
 print(chain2.invoke(1))
+
+# Parallel chains using dictionary
+chain3 = (RunnableLambda(plus_one) | {"step1": plus_one | RunnableLambda(fake_llm), "step2": fake_llm})
+print(chain2 == chain3)
